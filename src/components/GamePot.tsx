@@ -16,6 +16,14 @@ const CONTRACT_ADDRESS = (process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as `0x${strin
 // USDC on Base Sepolia
 const USDC_ADDRESS = '0x036CbD53842c5426634e7929541eC2318f3dCF7e';
 
+import { createPublicClient, http, parseAbiItem } from 'viem';
+import { baseSepolia } from 'viem/chains';
+
+const publicClient = createPublicClient({
+    chain: baseSepolia,
+    transport: http(),
+});
+
 export default function GamePot() {
     const { address: realAddress } = useAccount();
     const { isTestMode, state: testState, actions: testActions, isProcessing: isTestProcessing, lastEvent: testLastEvent } = useTestMode();
@@ -111,6 +119,45 @@ export default function GamePot() {
     const { isLoading: isConfirming, isSuccess: isConfirmed } =
         useWaitForTransactionReceipt({ hash });
 
+    const [lastEntryTime, setLastEntryTime] = useState<string | null>(null);
+
+    useEffect(() => {
+        const fetchLastEntry = async () => {
+            if (playerCount === 0) {
+                setLastEntryTime(null);
+                return;
+            }
+            try {
+                const logs = await publicClient.getLogs({
+                    address: CONTRACT_ADDRESS,
+                    event: parseAbiItem('event PlayerEntered(address indexed player, uint256 amount)'),
+                    fromBlock: BigInt(0),
+                    toBlock: 'latest'
+                });
+
+                if (logs.length > 0) {
+                    const lastLog = logs[logs.length - 1];
+                    const block = await publicClient.getBlock({ blockNumber: lastLog.blockNumber });
+                    const now = Math.floor(Date.now() / 1000);
+                    const diff = now - Number(block.timestamp);
+
+                    if (diff < 60) setLastEntryTime('just now');
+                    else if (diff < 3600) setLastEntryTime(`${Math.floor(diff / 60)}m ago`);
+                    else if (diff < 86400) setLastEntryTime(`${Math.floor(diff / 3600)}h ago`);
+                    else setLastEntryTime('>1d ago');
+                }
+            } catch (err) {
+                console.error('Failed to fetch last entry time', err);
+            }
+        };
+
+        if (!isTestMode) {
+            fetchLastEntry();
+            const interval = setInterval(fetchLastEntry, 60000); // Update every minute
+            return () => clearInterval(interval);
+        }
+    }, [playerCount, isTestMode, isConfirmed]);
+
     useEffect(() => {
         if (isConfirmed && !isTestMode) {
             refetchAllowance();
@@ -196,6 +243,11 @@ export default function GamePot() {
                             <span>{playerCount} / 6</span>
                         )}
                     </div>
+                    {lastEntryTime && (
+                        <div className="text-[9px] text-zinc-400 mt-1 uppercase tracking-wider">
+                            Last entry: {lastEntryTime}
+                        </div>
+                    )}
                 </div>
 
                 <p className="text-[10px] text-white text-center -mt-2 px-2">
