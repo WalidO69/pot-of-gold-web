@@ -35,14 +35,14 @@ interface TestContextType {
 }
 
 const DEFAULT_STATE: TestState = {
-    address: '0xTestUser...1234',
-    balance: parseUnits('100', 6), // 100 USDC
+    address: '',
+    balance: BigInt(0),
     allowance: BigInt(0),
     players: [],
-    megaPot: parseUnits('1000', 6), // 1000 USDC
+    megaPot: BigInt(0),
     consecutiveLosses: BigInt(0),
-    entryFee: parseUnits('1', 6), // 1 USDC
-    discountedFee: parseUnits('0.5', 6), // 0.5 USDC
+    entryFee: BigInt(0),
+    discountedFee: BigInt(0),
 };
 
 const TestModeContext = createContext<TestContextType | undefined>(undefined);
@@ -54,10 +54,11 @@ export function TestModeProvider({ children }: { children: ReactNode }) {
     const [isProcessing, setIsProcessing] = useState(false);
 
     // Persist Test Mode preference
-    useEffect(() => {
-        const stored = localStorage.getItem('isTestMode');
-        if (stored) setIsTestMode(JSON.parse(stored));
-    }, []);
+    // Persist Test Mode preference - DISABLED FOR PRODUCTION
+    // useEffect(() => {
+    //     const stored = localStorage.getItem('isTestMode');
+    //     if (stored) setIsTestMode(JSON.parse(stored));
+    // }, []);
 
     const toggleTestMode = () => {
         const newValue = !isTestMode;

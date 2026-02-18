@@ -12,14 +12,8 @@ interface PlayerStep {
     losingStreak: number;
 }
 
-// Mock Data
-const MOCK_LEADERBOARD: PlayerStep[] = [
-    { address: '0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045', wins: 50, totalGames: 120, totalEarnings: 250, losingStreak: 0 },
-    { address: '0x1234567890123456789012345678901234567890', wins: 5, totalGames: 10, totalEarnings: 25, losingStreak: 2 },
-    { address: '0xAe32165498765432109876543210987654321012', wins: 0, totalGames: 20, totalEarnings: -20, losingStreak: 8 },
-    { address: '0xDeFea73123456789012345678901234567890123', wins: 12, totalGames: 15, totalEarnings: 60, losingStreak: 0 },
-    { address: '0x9876543210987654321098765432109876543210', wins: 1, totalGames: 50, totalEarnings: 5, losingStreak: 4 },
-];
+// Mock Data - Removed for production
+const MOCK_LEADERBOARD: PlayerStep[] = [];
 
 function LeaderboardRow({ player, rank }: { player: PlayerStep; rank: number }) {
     // In a real app, useEnsName would fetch from mainnet for these addresses
