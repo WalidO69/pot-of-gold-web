@@ -11,6 +11,7 @@ import WinnersHistory from '@/components/WinnersHistory';
 import ProvablyFairModal from '@/components/ProvablyFairModal';
 import LastRoundsModal from '@/components/LastRoundsModal';
 import { useTestMode } from '@/context/TestModeContext';
+import DailyShareButton from '@/components/DailyShareButton';
 
 export default function Home() {
   const { isConnected } = useAccount();
@@ -66,11 +67,13 @@ export default function Home() {
               <ConnectButton showBalance={false} accountStatus="full" chainStatus="icon" />
             </div>
 
+            {/* Daily Share Button - Added Here */}
+            <DailyShareButton />
+
             <Leaderboard />
             <WinnersHistory />
           </div>
 
-          {/* Footer */}
           {/* Footer */}
           <div className="w-full grid grid-cols-2 gap-4 px-2 sm:px-0">
             <ProvablyFairModal />
