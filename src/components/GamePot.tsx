@@ -24,7 +24,7 @@ export default function GamePot() {
     const [showShareModal, setShowShareModal] = useState(false);
 
     const shareUrl = `https://warpcast.com/~/compose?text=${encodeURIComponent(
-        "I just joined the Pot of Gold! 🍀\n\n6 players enter, 1 winner takes 5$.\n\nJoin the round now!"
+        "I just entered the Pot of Gold! 🍀💰\n\n6 players put 1$ in, and 1 lucky winner takes home 5$ instantly! 🚀\n\nThe Pot is filling up fast... are you feeling lucky today? 🎲\n\n👇 Join the round before it's full!"
     )}&embeds[]=https://pot-of-gold-web.vercel.app`;
 
     // --- READS ---

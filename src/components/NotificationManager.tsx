@@ -30,7 +30,7 @@ function Toast({ message, type, onClose, onShare }: { message: string, type: 'su
                     onClick={onShare}
                     className="bg-white text-black font-bold py-2 px-4 rounded text-[10px] hover:bg-gray-200 transition-colors self-end uppercase flex items-center gap-2"
                 >
-                    <span>Share on Warpcast</span>
+                    <span>Share on Farcaster</span>
                     <span>📢</span>
                 </button>
             )}
@@ -142,7 +142,7 @@ export default function NotificationManager() {
                 }, 250);
 
                 const formattedAmount = formatUnits(amountWon, 6);
-                const shareText = `I just saw someone win ${formattedAmount}$ on Pot of Gold! 🍀\n\nJoin the pot now!`;
+                const shareText = `Someone just won ${formattedAmount}$ on Pot of Gold! 🏆✨\n\nThis is a provably fair micro-lottery on Base 🔵. 6 players enter, 1 winner takes it all!\n\nDon't miss the next round, the pot is already filling up! 🏃‍♂️💨\n\n👇 Click to play & win!`;
                 const shareUrl = `https://warpcast.com/~/compose?text=${encodeURIComponent(shareText)}&embeds[]=https://pot-of-gold-web.vercel.app`;
 
                 addToast(`WINNER! ${winner ? `${winner.slice(0, 6)}...` : 'Unknown'} won ${formattedAmount}$! 🏆`, 'success', shareUrl);
