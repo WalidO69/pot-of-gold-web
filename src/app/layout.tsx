@@ -11,13 +11,18 @@ const pressStart2P = Press_Start_2P({
 });
 
 export const metadata: Metadata = {
-  title: "Pot of Gold",
-  description: "Decentralized Micro-Lottery on Base. 6 players enter, 1 winner takes all.",
+  title: "Pot of Gold - Win 5$ Instantly",
+  description: "Join the Pot of Gold 🍀! A provably fair micro-lottery on Base. 6 players enter, 1 winner takes all. Are you feeling lucky today?",
   manifest: "/manifest.json",
+  openGraph: {
+    title: "Pot of Gold - Win 5$ Instantly 🍀",
+    description: "6 players enter, 1 winner takes all. Provably fair on Base.",
+    images: ["https://pot-of-gold-web.vercel.app/icon.png"],
+  },
   other: {
     "fc:frame": JSON.stringify({
       version: "next",
-      imageUrl: "https://pot-of-gold-web.vercel.app/icon.png", // Fallback image
+      imageUrl: "https://pot-of-gold-web.vercel.app/icon.png",
       button: {
         title: "Play Pot of Gold",
         action: {

@@ -14,5 +14,21 @@
         "splashImageUrl": "https://pot-of-gold-web.vercel.app/icon.png",
         "splashBackgroundColor": "#18181b",
         "webhookUrl": "https://pot-of-gold-web.vercel.app/api/webhook"
+    },
+    "app": {
+        "name": "Pot of Gold",
+        "shortName": "PotOfGold",
+        "description": "A provably fair micro-lottery on Base. 6 players enter, 1 winner takes all. Join the round, test your luck, and win USDC instantly.",
+        "icons": [
+            {
+                "src": "https://pot-of-gold-web.vercel.app/icon.png",
+                "sizes": "512x512",
+                "type": "image/png"
+            }
+        ],
+        "splash": {
+            "imageUrl": "https://pot-of-gold-web.vercel.app/icon.png",
+            "backgroundColor": "#18181b"
+        }
     }
 }
