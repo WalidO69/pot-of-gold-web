@@ -17,19 +17,19 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Pot of Gold - Win 5$ Instantly 🍀",
     description: "6 players enter, 1 winner takes all. Provably fair on Base.",
-    images: ["https://pot-of-gold-web.vercel.app/icon.png"],
+    images: ["https://pot-of-gold-web.vercel.app/splash.png"],
   },
   other: {
     "fc:frame": JSON.stringify({
       version: "next",
-      imageUrl: "https://pot-of-gold-web.vercel.app/icon.png",
+      imageUrl: "https://pot-of-gold-web.vercel.app/splash.png",
       button: {
         title: "Play Pot of Gold",
         action: {
           type: "launch_frame",
           name: "Pot of Gold",
           url: "https://pot-of-gold-web.vercel.app/",
-          splashImageUrl: "https://pot-of-gold-web.vercel.app/icon.png",
+          splashImageUrl: "https://pot-of-gold-web.vercel.app/splash.png",
           splashBackgroundColor: "#18181b"
         }
       }
