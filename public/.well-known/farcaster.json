@@ -10,7 +10,7 @@
         "iconUrl": "https://pot-of-gold-web.vercel.app/icon.png",
         "homeUrl": "https://pot-of-gold-web.vercel.app",
         "imageUrl": "https://pot-of-gold-web.vercel.app/icon.png",
-        "buttonTitle": "Play Pot of Gold",
+        "buttonTitle": "Play Pot of Gold 🍀",
         "splashImageUrl": "https://pot-of-gold-web.vercel.app/icon.png",
         "splashBackgroundColor": "#18181b",
         "webhookUrl": "https://pot-of-gold-web.vercel.app/api/webhook"
@@ -18,8 +18,14 @@
     "app": {
         "name": "Pot of Gold",
         "shortName": "PotOfGold",
-        "description": "A provably fair micro-lottery on Base. 6 players enter, 1 winner takes all. Join the round, test your luck, and win USDC instantly.",
+        "tagline": "Win big in the provably fair micro-lottery 🍀",
+        "description": "The fairest game on Farcaster. 6 players enter 1 USDC. 1 winner takes 5 USDC instantly. Automated and verifiable on Base.",
         "icons": [
+            {
+                "src": "https://pot-of-gold-web.vercel.app/icon.png",
+                "sizes": "192x192",
+                "type": "image/png"
+            },
             {
                 "src": "https://pot-of-gold-web.vercel.app/icon.png",
                 "sizes": "512x512",
@@ -29,6 +35,13 @@
         "splash": {
             "imageUrl": "https://pot-of-gold-web.vercel.app/icon.png",
             "backgroundColor": "#18181b"
-        }
+        },
+        "screenshots": [
+            {
+                "src": "https://pot-of-gold-web.vercel.app/icon.png",
+                "type": "image/png",
+                "label": "Home Screen"
+            }
+        ]
     }
 }
