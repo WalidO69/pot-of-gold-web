@@ -1,0 +1,18 @@
+{
+    "accountAssociation": {
+        "header": "eyJmaWQiOjg4OTQ5MiwidHlwZSI6ImN1c3RvZHkiLCJrZXkiOiJMHhudWxsIn0",
+        "payload": "eyJkb21haW4iOiJwb3Qtb2YtZ29sZC13ZWIudmVyY2VsLmFwcCJ9",
+        "signature": "MHhudWxs"
+    },
+    "frame": {
+        "version": "1",
+        "name": "Pot of Gold",
+        "iconUrl": "https://pot-of-gold-web.vercel.app/icon.png",
+        "homeUrl": "https://pot-of-gold-web.vercel.app",
+        "imageUrl": "https://pot-of-gold-web.vercel.app/icon.png",
+        "buttonTitle": "Play Pot of Gold",
+        "splashImageUrl": "https://pot-of-gold-web.vercel.app/icon.png",
+        "splashBackgroundColor": "#18181b",
+        "webhookUrl": "https://pot-of-gold-web.vercel.app/api/webhook"
+    }
+}
