@@ -62,25 +62,8 @@ export default function Home() {
             <GamePot />
 
             <div className="flex flex-col items-center gap-4">
-              {!isConnected && !isTestMode && <p className="text-yellow-400 text-xs blink">INSERT COIN TO START</p>}
-              {!isTestMode && <ConnectButton showBalance={false} accountStatus="full" chainStatus="icon" />}
-
-              {isTestMode && (
-                <div className="flex gap-2">
-                  <button
-                    onClick={actions.addFakePlayer}
-                    className="bg-purple-600/80 hover:bg-purple-500 text-white text-[10px] px-3 py-2 rounded border border-purple-400 font-pixel"
-                  >
-                    + Add Bot 🤖
-                  </button>
-                  <button
-                    onClick={actions.resetGame}
-                    className="bg-red-600/80 hover:bg-red-500 text-white text-[10px] px-3 py-2 rounded border border-red-400 font-pixel"
-                  >
-                    Reset 🔄
-                  </button>
-                </div>
-              )}
+              {!isConnected && <p className="text-yellow-400 text-xs blink">INSERT COIN TO START</p>}
+              <ConnectButton showBalance={false} accountStatus="full" chainStatus="icon" />
             </div>
 
             <Leaderboard />
@@ -98,12 +81,6 @@ export default function Home() {
             <p className="text-white drop-shadow-[1px_1px_0_rgba(0,0,0,1)] uppercase tracking-wider" style={{ textShadow: '1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000' }}>
               Powered by Base & Chainlink VRF
             </p>
-            <button
-              onClick={toggleTestMode}
-              className={`px-2 py-1 rounded text-[9px] border ${isTestMode ? 'bg-green-900 border-green-500 text-green-300' : 'bg-zinc-800 border-zinc-600 text-zinc-500'}`}
-            >
-              {isTestMode ? '🟢 TEST MODE ACTIVE' : '⚪ Enable Test Mode'}
-            </button>
           </div>
         </div>
       </div>
