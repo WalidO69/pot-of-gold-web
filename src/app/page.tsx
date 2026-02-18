@@ -63,7 +63,7 @@ export default function Home() {
             <GamePot />
 
             <div className="flex flex-col items-center gap-4">
-              {!isConnected && <p className="text-yellow-400 text-xs blink">INSERT COIN TO START</p>}
+              {!isConnected && <p className="text-white text-xs blink">INSERT COIN TO JOIN LEADERBOARD</p>}
               <ConnectButton showBalance={false} accountStatus="full" chainStatus="icon" />
             </div>
 
