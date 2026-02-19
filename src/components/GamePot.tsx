@@ -16,7 +16,7 @@ import { publicClient } from '@/utils/viem';
 export default function GamePot() {
     const { address } = useAccount();
 
-    const [showShareModal, setShowShareModal] = useState(false);
+
 
     const shareUrl = `https://warpcast.com/~/compose?text=${encodeURIComponent(
         "I just entered the Pot of Gold! 🍀💰\n\n6 players put 1$ in, and 1 lucky winner takes home 5$ instantly! 🚀\n\nThe Pot is filling up fast... are you feeling lucky today? 🎲\n\n👇 Join the round before it's full!"
@@ -100,6 +100,8 @@ export default function GamePot() {
 
     const [lastEntryTime, setLastEntryTime] = useState<string | null>(null);
     const [lastPlayerCount, setLastPlayerCount] = useState(0);
+    const [showShareModal, setShowShareModal] = useState(false);
+    const [lastTxType, setLastTxType] = useState<'approve' | 'enter' | null>(null);
     const [showEntryGif, setShowEntryGif] = useState(false);
 
     useEffect(() => {
@@ -151,13 +153,16 @@ export default function GamePot() {
         if (isConfirmed) {
             refetchAllowance();
             refetchPlayers();
-            setShowShareModal(true);
+            if (lastTxType === 'enter') {
+                setShowShareModal(true);
+            }
         }
-    }, [isConfirmed, refetchAllowance, refetchPlayers]);
+    }, [isConfirmed, refetchAllowance, refetchPlayers, lastTxType]);
 
 
     const handleInteraction = () => {
         if (needsApproval) {
+            setLastTxType('approve');
             writeContract({
                 address: USDC_ADDRESS,
                 abi: ERC20ABI,
@@ -165,6 +170,7 @@ export default function GamePot() {
                 args: [CONTRACT_ADDRESS, parseUnits('1', 6)], // Exact amount for security
             });
         } else {
+            setLastTxType('enter');
             writeContract({
                 address: CONTRACT_ADDRESS,
                 abi: PotOfGoldABI.abi as Abi,
