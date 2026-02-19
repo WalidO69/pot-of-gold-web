@@ -38,14 +38,6 @@ export default function ShareModal({ isOpen, onClose, shareUrl }: ShareModalProp
                 <div className="absolute -bottom-1 -left-1 w-4 h-4 bg-[#855DCD]" />
                 <div className="absolute -bottom-1 -right-1 w-4 h-4 bg-[#855DCD]" />
 
-                {/* Close Button */}
-                <button
-                    onClick={onClose}
-                    className="absolute top-2 right-2 text-white/60 hover:text-white hover:scale-110 transition-all"
-                >
-                    ✕
-                </button>
-
                 <div className="text-center space-y-4">
                     <div className="text-3xl animate-bounce">🍀</div>
 
@@ -66,7 +58,7 @@ export default function ShareModal({ isOpen, onClose, shareUrl }: ShareModalProp
                             onClick={onClose}
                             className="
                                 group relative inline-flex items-center justify-center gap-2
-                                w-full py-3 px-6 
+                                w-full py-4 px-6 
                                 bg-[#855DCD] hover:bg-[#966de3]
                                 text-white font-bold uppercase tracking-widest
                                 border-b-4 border-[#5a3a91] active:border-b-0 active:translate-y-1
@@ -74,14 +66,20 @@ export default function ShareModal({ isOpen, onClose, shareUrl }: ShareModalProp
                             "
                         >
                             <span>Share</span>
-                            <span className="group-hover:rotate-12 transition-transform">📢</span>
+                            <span className="group-hover:rotate-12 transition-transform text-xl">📢</span>
                         </a>
 
                         <button
                             onClick={onClose}
-                            className="w-full py-2 text-white/40 hover:text-white/80 transition-colors uppercase text-[10px] font-bold tracking-[0.2em]"
+                            className="
+                                w-full py-3 px-6 
+                                bg-zinc-800 hover:bg-zinc-700
+                                text-zinc-400 hover:text-white font-bold uppercase tracking-widest
+                                border-b-4 border-black active:border-b-0 active:translate-y-1
+                                transition-all text-xs
+                            "
                         >
-                            [ Close ]
+                            Close
                         </button>
                     </div>
                 </div>
