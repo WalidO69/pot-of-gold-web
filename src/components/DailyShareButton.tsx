@@ -89,7 +89,7 @@ export default function DailyShareButton() {
     if (isTestMode) return null; // Or show mock version
 
     return (
-        <div className="w-full max-w-sm mx-auto mb-4 relative group">
+        <div className="w-full max-w-sm mx-auto relative group">
             {/* Rainbow Border Container */}
             <div className={`
                 relative p-1 rounded-xl overflow-hidden

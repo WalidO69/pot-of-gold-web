@@ -34,7 +34,7 @@ export default function Home() {
           />
         </div>
 
-        <div className="z-10 w-full max-w-4xl flex flex-col items-center gap-12 py-6">
+        <div className="z-10 w-full max-w-4xl flex flex-col items-center gap-4 py-6">
           {/* Header / Title */}
           <div className="text-center w-full">
             <h1
@@ -59,7 +59,7 @@ export default function Home() {
           <MegaPotDisplay />
 
           {/* Game Area & Leaderboard - Visible to everyone */}
-          <div className="w-full flex flex-col items-center gap-8">
+          <div className="w-full flex flex-col items-center gap-6">
             <GamePot />
 
             <div className="flex flex-col items-center gap-4">
