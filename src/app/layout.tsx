@@ -19,12 +19,12 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Pot of Gold - Win 5$ 🍀",
     description: "6 players enter, 1 winner takes all. Provably fair on Base.",
-    images: [`${APP_URL}/icon.png`],
+    images: [`${APP_URL}/daily-share-post.png`],
   },
   other: {
     "fc:frame": JSON.stringify({
       version: "next",
-      imageUrl: `${APP_URL}/icon.png`,
+      imageUrl: `${APP_URL}/daily-share-post.png`,
       button: {
         title: "Play Pot of Gold",
         action: {
