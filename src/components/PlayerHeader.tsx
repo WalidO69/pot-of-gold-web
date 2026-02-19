@@ -6,8 +6,7 @@ import PotOfGoldABI from '@/abi/PotOfGold.json';
 import { type Abi } from 'viem';
 import RulesModal from './RulesModal';
 
-const CONTRACT_ADDRESS = (process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as `0x${string}`) || '0x0000000000000000000000000000000000000000';
-const USDC_ADDRESS = '0x036CbD53842c5426634e7929541eC2318f3dCF7e';
+import { CONTRACT_ADDRESS, USDC_ADDRESS, ACTIVE_CHAIN, IS_MAINNET } from '@/config';
 
 import { useFarcasterUser } from '@/hooks/useFarcasterUser';
 
@@ -46,7 +45,7 @@ export default function PlayerHeader() {
     const { data: usdcBalance } = useBalance({
         address: address,
         token: USDC_ADDRESS,
-        chainId: 84532, // Base Sepolia
+        chainId: ACTIVE_CHAIN.id,
     });
 
     // if (!isConnected) return null;
@@ -76,7 +75,7 @@ export default function PlayerHeader() {
                             }
                         </span>
                         <span className="text-[8px] md:text-[10px] text-zinc-400 font-mono tracking-tight leading-tight">
-                            {isConnected ? 'BASE SEPOLIA' : 'DISCONNECTED'}
+                            {isConnected ? (IS_MAINNET ? 'BASE' : 'BASE SEPOLIA') : 'DISCONNECTED'}
                         </span>
                     </div>
                 </div>
