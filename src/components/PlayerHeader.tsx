@@ -9,12 +9,10 @@ import RulesModal from './RulesModal';
 const CONTRACT_ADDRESS = (process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as `0x${string}`) || '0x0000000000000000000000000000000000000000';
 const USDC_ADDRESS = '0x036CbD53842c5426634e7929541eC2318f3dCF7e';
 
-import { useTestMode } from '@/context/TestModeContext';
 import { useFarcasterUser } from '@/hooks/useFarcasterUser';
 
 export default function PlayerHeader() {
     const { address, isConnected } = useAccount();
-    const { isTestMode, state: testState } = useTestMode();
 
     // Identity
     const { data: ensName } = useEnsName({ address, chainId: 1 });
@@ -72,13 +70,13 @@ export default function PlayerHeader() {
                     </div>
                     <div className="flex flex-col gap-0.5">
                         <span className="text-white font-bold text-[11px] md:text-sm tracking-wide leading-tight">
-                            {isConnected || isTestMode
-                                ? (isTestMode ? 'Test User' : (fcUser ? `@${fcUser.username}` : (ensName || (address ? `${address.slice(0, 4)}...${address.slice(-4)}` : 'Player'))))
+                            {isConnected
+                                ? (fcUser ? `@${fcUser.username}` : (ensName || (address ? `${address.slice(0, 4)}...${address.slice(-4)}` : 'Player')))
                                 : 'Guest'
                             }
                         </span>
                         <span className="text-[8px] md:text-[10px] text-zinc-400 font-mono tracking-tight leading-tight">
-                            {isTestMode ? 'TEST MODE' : (isConnected ? 'BASE SEPOLIA' : 'DISCONNECTED')}
+                            {isConnected ? 'BASE SEPOLIA' : 'DISCONNECTED'}
                         </span>
                     </div>
                 </div>
@@ -98,7 +96,7 @@ export default function PlayerHeader() {
                     <div className="flex flex-col items-end">
                         <span className="text-zinc-500 text-[8px] md:text-[10px] uppercase opacity-80 leading-none mb-1.5">Streak</span>
                         <span className="text-white font-bold text-xs md:text-base leading-none">
-                            {isTestMode ? Number(testState.consecutiveLosses) : (consecutiveLosses ? Number(consecutiveLosses) : 0)} 💔
+                            {consecutiveLosses ? Number(consecutiveLosses) : 0} 💔
                         </span>
                     </div>
 
@@ -108,7 +106,7 @@ export default function PlayerHeader() {
                     <div className="flex flex-col items-end">
                         <span className="text-zinc-500 text-[8px] md:text-[10px] uppercase opacity-80 leading-none mb-1.5">Balance</span>
                         <span className="text-money-green font-bold text-xs md:text-base leading-none">
-                            {isTestMode ? formatUnits(testState.balance, 6) : (usdcBalance ? Number(formatUnits(usdcBalance.value, usdcBalance.decimals)).toFixed(2) : '0.00')} $
+                            {usdcBalance ? Number(formatUnits(usdcBalance.value, usdcBalance.decimals)).toFixed(2) : '0.00'} $
                         </span>
                     </div>
 

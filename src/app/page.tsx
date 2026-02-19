@@ -10,12 +10,10 @@ import PlayerHeader from '@/components/PlayerHeader';
 import WinnersHistory from '@/components/WinnersHistory';
 import ProvablyFairModal from '@/components/ProvablyFairModal';
 import LastRoundsModal from '@/components/LastRoundsModal';
-import { useTestMode } from '@/context/TestModeContext';
 import DailyShareButton from '@/components/DailyShareButton';
 
 export default function Home() {
   const { isConnected } = useAccount();
-  const { isTestMode, toggleTestMode, actions } = useTestMode();
 
   return (
     <main className="min-h-screen flex flex-col items-center justify-start relative overflow-y-auto">
@@ -42,39 +40,43 @@ export default function Home() {
             >
               Pot of Gold
             </h1>
-            <div className="text-purple-300 mt-4 flex flex-col items-center gap-1 uppercase tracking-widest drop-shadow-[2px_2px_0_rgba(26,26,26,1)] font-bold">
-              <p
-                className="text-white text-xl md:text-2xl mb-2"
-                style={{ textShadow: '2px 2px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000' }}
-              >
-                ENTER THE POT TO WIN 5$
-              </p>
-              <p className="text-sm md:text-xl">6 PLAYERS BET 1$</p>
-              <p className="text-[10px] md:text-sm">1 PLAYER WINS 5$</p>
-              <p className="text-[10px] md:text-sm">0.5$ GOES TO THE MEGAPOT</p>
+
+            <div className="mt-6 flex flex-col items-center gap-4">
+              {/* Main Prize Badge */}
+              <div className="bg-yellow-500/10 border-2 border-yellow-500/50 px-6 py-2 rounded-xl shadow-[0_0_15px_rgba(234,179,8,0.2)]">
+                <p
+                  className="text-yellow-400 text-xl md:text-2xl font-black uppercase tracking-tight"
+                  style={{ textShadow: '2px 2px 0 #000' }}
+                >
+                  🏆 WIN 5$ INSTANTLY
+                </p>
+              </div>
+
+              {/* Info Pills */}
+              <div className="flex flex-wrap justify-center gap-3">
+                <div className="bg-black/60 backdrop-blur-sm border border-white/20 px-4 py-1.5 rounded-full shadow-lg">
+                  <span className="text-[10px] font-bold text-white uppercase tracking-widest">💸 1$ Entry</span>
+                </div>
+                <div className="bg-black/60 backdrop-blur-sm border border-white/20 px-4 py-1.5 rounded-full shadow-lg">
+                  <span className="text-[10px] font-bold text-white uppercase tracking-widest">👥 6 Players</span>
+                </div>
+              </div>
+
+              {/* Ticket Mention */}
+              <div className="flex flex-col items-center gap-1">
+                <p className="text-[10px] text-purple-300 font-bold uppercase tracking-[0.15em] drop-shadow-sm">
+                  Every play gets a <span className="text-white">MegaPot Ticket</span> 🎟️
+                </p>
+                <p className="text-[10px] text-white uppercase tracking-widest opacity-80 font-bold">
+                  0.5$ of each bet fuels the weekly draw
+                </p>
+              </div>
             </div>
           </div>
 
           {/* Mega Pot HUD */}
           <MegaPotDisplay />
 
-          {/* Test Mode Controls */}
-          {isTestMode && (
-            <div className="flex gap-4 mb-4">
-              <button
-                onClick={actions.addFakePlayer}
-                className="bg-purple-600 hover:bg-purple-500 text-white text-[10px] px-3 py-2 rounded-lg font-bold uppercase border-b-4 border-purple-800 active:border-b-0 active:mt-1 transition-all"
-              >
-                🤖 Add Bot Player
-              </button>
-              <button
-                onClick={actions.resetGame}
-                className="bg-zinc-700 hover:bg-zinc-600 text-white text-[10px] px-3 py-2 rounded-lg font-bold uppercase border-b-4 border-zinc-900 active:border-b-0 active:mt-1 transition-all"
-              >
-                🔄 Reset Test
-              </button>
-            </div>
-          )}
 
           {/* GamePot & Action */}
           <div className="w-full flex flex-col items-center gap-5">
@@ -100,12 +102,6 @@ export default function Home() {
           </div>
 
           <div className="text-center text-[10px] font-mono flex flex-col items-center gap-3">
-            <button
-              onClick={toggleTestMode}
-              className={`px-3 py-1 rounded-full border border-white/20 transition-colors ${isTestMode ? 'bg-yellow-500/20 text-yellow-500 border-yellow-500/50' : 'text-zinc-500 hover:text-white'}`}
-            >
-              {isTestMode ? '🧪 TEST MODE ACTIVE' : '🧪 ENABLE TEST MODE'}
-            </button>
             <p className="text-white opacity-40 uppercase tracking-widest" style={{ textShadow: '1px 1px 0 #000' }}>
               Powered by Base & Chainlink VRF
             </p>

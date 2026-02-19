@@ -6,7 +6,6 @@ import { formatUnits } from 'viem';
 import PotOfGoldABI from '@/abi/PotOfGold.json';
 import { type Abi } from 'viem';
 import { useGameSounds } from '../hooks/useGameSounds';
-import { useTestMode } from '@/context/TestModeContext';
 import confetti from 'canvas-confetti';
 
 // Simple Toast Component
@@ -40,7 +39,6 @@ function Toast({ message, type, onClose, onShare }: { message: string, type: 'su
 
 export default function NotificationManager() {
     const { playCoin, playWin, playFail } = useGameSounds();
-    const { isTestMode, lastEvent } = useTestMode();
     const [toasts, setToasts] = useState<{ id: number, message: string, type: 'success' | 'info', shareUrl?: string }[]>([]);
 
     const addToast = (message: string, type: 'success' | 'info', shareUrl?: string) => {
@@ -55,42 +53,6 @@ export default function NotificationManager() {
     const handleShare = (url: string) => {
         window.open(url, '_blank');
     };
-
-    // --- Test Mode Listener ---
-    useEffect(() => {
-        if (!isTestMode || !lastEvent) return;
-
-        // Give a small delay to ensure state update propagates (sometimes needed for sounds)
-        const timeout = setTimeout(() => {
-            if (lastEvent.type === 'PLAYER_ENTERED') {
-                console.log('Test Event: Player Entered', lastEvent.player);
-                playCoin();
-                addToast(`New Player Joined! 💰`, 'info');
-            } else if (lastEvent.type === 'WINNER_SELECTED') {
-                console.log('Test Event: Winner Selected', lastEvent.winner);
-                playWin();
-
-                // Confetti
-                const duration = 5 * 1000;
-                const animationEnd = Date.now() + duration;
-                const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
-                const randomInRange = (min: number, max: number) => Math.random() * (max - min) + min;
-
-                const interval: any = setInterval(function () {
-                    const timeLeft = animationEnd - Date.now();
-                    if (timeLeft <= 0) return clearInterval(interval);
-                    const particleCount = 50 * (timeLeft / duration);
-                    confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
-                    confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
-                }, 250);
-
-                const formattedAmount = formatUnits(lastEvent.amount, 6);
-                addToast(`WINNER! ${lastEvent.winner.slice(0, 6)}... won ${formattedAmount}$! 🏆`, 'success');
-            }
-        }, 100);
-
-        return () => clearTimeout(timeout);
-    }, [lastEvent, isTestMode, playCoin, playWin]);
 
     // --- Event Listeners ---
 

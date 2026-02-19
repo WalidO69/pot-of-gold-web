@@ -22,7 +22,6 @@ import {
     QueryClient,
 } from "@tanstack/react-query";
 import { WagmiProvider, createConfig, http } from 'wagmi';
-import { TestModeProvider } from '@/context/TestModeContext';
 import { farcasterMiniApp } from "@farcaster/miniapp-wagmi-connector";
 import { FarcasterProvider } from '@/components/FarcasterProvider';
 
@@ -80,9 +79,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
                     })}
                 >
                     <FarcasterProvider>
-                        <TestModeProvider>
-                            {children}
-                        </TestModeProvider>
+                        {children}
                     </FarcasterProvider>
                 </RainbowKitProvider>
             </QueryClientProvider>

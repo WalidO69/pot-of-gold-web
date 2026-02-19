@@ -5,13 +5,11 @@ import { useAccount, useReadContract, useWriteContract, useWaitForTransactionRec
 import { type Abi } from 'viem';
 import PotOfGoldABI from '@/abi/PotOfGold.json';
 import confetti from 'canvas-confetti';
-import { useTestMode } from '@/context/TestModeContext';
 
 const CONTRACT_ADDRESS = (process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as `0x${string}`) || '0x0000000000000000000000000000000000000000';
 
 export default function DailyShareButton() {
     const { address } = useAccount();
-    const { isTestMode } = useTestMode();
     const [timeLeft, setTimeLeft] = useState<string | null>(null);
 
     // Read last claim time
@@ -64,11 +62,6 @@ export default function DailyShareButton() {
     }, [isConfirmed, refetch]);
 
     const handleShareAndClaim = () => {
-        if (isTestMode) {
-            alert("Test mode: Imagine you shared and got a ticket! 🎟️");
-            return;
-        }
-
         // 1. Open Share Intent
         const shareText = "I just grabbed my free Daily Ticket for the Pot of Gold! 🎟️🍀\n\nDaily chance to win the MegaPot! 💰\n\n👇 Claim yours now!";
         // Using the newly generated daily-share-post.png
@@ -85,8 +78,6 @@ export default function DailyShareButton() {
             });
         }, 1000);
     };
-
-    if (isTestMode) return null; // Or show mock version
 
     return (
         <div className="w-full max-w-sm mx-auto relative group">

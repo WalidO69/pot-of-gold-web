@@ -7,7 +7,6 @@ import PotOfGoldABI from '@/abi/PotOfGold.json';
 import ERC20ABI from '@/abi/ERC20.json';
 import PixelLoader from './PixelLoader';
 import ShareModal from './ShareModal';
-import { useTestMode } from '@/context/TestModeContext';
 
 
 // Placeholder addresses (Replace with real ones in .env)
@@ -25,9 +24,7 @@ const publicClient = createPublicClient({
 });
 
 export default function GamePot() {
-    const { address: realAddress } = useAccount();
-    const { isTestMode, state: testState, actions: testActions, isProcessing: isTestProcessing, lastEvent: testLastEvent } = useTestMode();
-    const address = isTestMode ? testState.address as `0x${string}` : realAddress;
+    const { address } = useAccount();
 
     const [showShareModal, setShowShareModal] = useState(false);
 
@@ -86,29 +83,21 @@ export default function GamePot() {
 
     // Logic
     // Convert BigInt to number for display
-    const playerCount = isTestMode ? testState.players.length : (activePlayers ? Number(activePlayers) : 0);
+    const playerCount = activePlayers ? Number(activePlayers) : 0;
 
-    const hasDiscount = isTestMode
-        ? testState.consecutiveLosses >= 5
-        : (consecutiveLosses ? Number(consecutiveLosses) >= 5 : false);
+    const hasDiscount = consecutiveLosses ? Number(consecutiveLosses) >= 5 : false;
 
-    const currentFee = isTestMode
-        ? (hasDiscount ? testState.discountedFee : testState.entryFee)
-        : (hasDiscount ? discountedFee : entryFee);
+    const currentFee = hasDiscount ? discountedFee : entryFee;
 
-    const needsApproval = isTestMode
-        ? testState.allowance < (currentFee as bigint || BigInt(0))
-        : (currentFee && allowance ? (allowance as bigint) < (currentFee as bigint) : true);
+    const needsApproval = currentFee && allowance ? (allowance as bigint) < (currentFee as bigint) : true;
 
     // Refund Logic
     const currentTime = Math.floor(Date.now() / 1000);
     const refundTime = lastGameStart ? Number(lastGameStart) + (24 * 3600) : Infinity;
-    const canRefund = !isTestMode && playerCount > 0 && playerCount < 6 && currentTime > refundTime;
+    const canRefund = playerCount > 0 && playerCount < 6 && currentTime > refundTime;
 
     // Player Entry Limit Logic (Max 2)
-    const activePlayersArray = isTestMode
-        ? testState.players
-        : (playersData?.map(p => p.status === 'success' ? (p.result as string) : null).filter(Boolean) || []);
+    const activePlayersArray = playersData?.map(p => p.status === 'success' ? (p.result as string) : null).filter(Boolean) || [];
 
     const userEntryCount = activePlayersArray.filter(p => p?.toLowerCase() === address?.toLowerCase()).length;
     const isLimitReached = userEntryCount >= 2;
@@ -163,39 +152,21 @@ export default function GamePot() {
         }
         setLastPlayerCount(playerCount);
 
-        if (!isTestMode) {
-            fetchLastEntry();
-            const interval = setInterval(fetchLastEntry, 60000); // Update every minute
-            return () => clearInterval(interval);
-        }
-    }, [playerCount, isTestMode, isConfirmed, lastPlayerCount]);
+        fetchLastEntry();
+        const interval = setInterval(fetchLastEntry, 60000); // Update every minute
+        return () => clearInterval(interval);
+    }, [playerCount, isConfirmed, lastPlayerCount]);
 
     useEffect(() => {
-        if (isConfirmed && !isTestMode) {
+        if (isConfirmed) {
             refetchAllowance();
             refetchPlayers();
             setShowShareModal(true);
         }
-    }, [isConfirmed, refetchAllowance, refetchPlayers, isTestMode]);
-
-    // Test Mode Join Listener
-    useEffect(() => {
-        if (isTestMode && testLastEvent && testLastEvent.type === 'PLAYER_ENTERED' && testLastEvent.player === address) {
-            setShowShareModal(true);
-        }
-    }, [isTestMode, testLastEvent, address]);
+    }, [isConfirmed, refetchAllowance, refetchPlayers]);
 
 
     const handleInteraction = () => {
-        if (isTestMode) {
-            if (needsApproval) {
-                testActions.approve();
-            } else {
-                testActions.joinPot();
-            }
-            return;
-        }
-
         if (needsApproval) {
             writeContract({
                 address: USDC_ADDRESS,
@@ -221,7 +192,6 @@ export default function GamePot() {
     };
 
     const getButtonText = () => {
-        if (isTestMode && isTestProcessing) return 'Processing (Fake)...';
         if (isPending) return 'Processing...';
         if (isConfirming) return 'Confirming...';
         if (isLimitReached) return 'Max 2 entries reached';
@@ -249,7 +219,7 @@ export default function GamePot() {
                 <div className="bg-zinc-800 border-2 border-white px-4 py-2 text-center w-full shadow-[4px_4px_0_rgba(0,0,0,0.5)]">
                     <div className="text-white text-sm flex items-center justify-center gap-2">
                         <span className="text-white">PLAYERS:</span>
-                        {isLoadingPlayers && !isTestMode ? (
+                        {isLoadingPlayers ? (
                             <PixelLoader size="sm" />
                         ) : (
                             <span>{playerCount} / 6</span>
@@ -273,37 +243,22 @@ export default function GamePot() {
                             CURRENT ROUND PLAYERS
                         </h3>
                         <div className="flex flex-col gap-2">
-                            {isTestMode ? (
-                                testState.players.map((p, i) => (
+                            {playersData?.map((p, i) => {
+                                if (p.status !== 'success' || !p.result || p.result === '0x0000000000000000000000000000000000000000') return null;
+                                const playerAddress = p.result as string;
+                                return (
                                     <div key={i} className="flex items-center gap-2 bg-zinc-900/50 p-1 rounded">
                                         <img
-                                            src={`https://api.dicebear.com/9.x/pixel-art/svg?seed=${p}`}
+                                            src={`https://api.dicebear.com/9.x/pixel-art/svg?seed=${playerAddress}`}
                                             alt="Avatar"
                                             className="w-6 h-6 rounded bg-zinc-800 border border-white/20"
                                         />
                                         <span className="text-xs text-white font-mono truncate">
-                                            {p.slice(0, 6)}...{p.slice(-4)}
+                                            {playerAddress.slice(0, 6)}...{playerAddress.slice(-4)}
                                         </span>
                                     </div>
-                                ))
-                            ) : (
-                                playersData?.map((p, i) => {
-                                    if (p.status !== 'success' || !p.result || p.result === '0x0000000000000000000000000000000000000000') return null;
-                                    const playerAddress = p.result as string;
-                                    return (
-                                        <div key={i} className="flex items-center gap-2 bg-zinc-900/50 p-1 rounded">
-                                            <img
-                                                src={`https://api.dicebear.com/9.x/pixel-art/svg?seed=${playerAddress}`}
-                                                alt="Avatar"
-                                                className="w-6 h-6 rounded bg-zinc-800 border border-white/20"
-                                            />
-                                            <span className="text-xs text-white font-mono truncate">
-                                                {playerAddress.slice(0, 6)}...{playerAddress.slice(-4)}
-                                            </span>
-                                        </div>
-                                    );
-                                })
-                            )}
+                                );
+                            })}
                         </div>
                     </div>
                 )}
@@ -312,7 +267,7 @@ export default function GamePot() {
             {/* Action Button */}
             <button
                 onClick={handleInteraction}
-                disabled={isPending || isConfirming || (isTestMode ? isTestProcessing : false) || playerCount >= 6 || isLimitReached}
+                disabled={isPending || isConfirming || playerCount >= 6 || isLimitReached}
                 className={`
             w-full max-w-sm py-4 px-6 uppercase font-bold text-sm tracking-widest
             border-b-4 active:border-b-0 active:mt-1 transition-all
@@ -321,7 +276,7 @@ export default function GamePot() {
                         ? 'bg-blue-600 hover:bg-blue-500 border-blue-800 text-white'
                         : 'bg-green-500 hover:bg-green-500 border-green-800 text-white'
                     }
-            ${(isPending || isConfirming || (isTestMode && isTestProcessing) || playerCount >= 6 || isLimitReached) ? 'opacity-50 cursor-not-allowed' : ''}
+            ${(isPending || isConfirming || playerCount >= 6 || isLimitReached) ? 'opacity-50 cursor-not-allowed' : ''}
         `}
             >
                 {getButtonText()}
