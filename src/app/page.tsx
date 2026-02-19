@@ -34,9 +34,9 @@ export default function Home() {
           />
         </div>
 
-        <div className="z-10 w-full max-w-4xl flex flex-col items-center gap-4 py-6">
+        <div className="z-10 w-full max-w-4xl flex flex-col items-center gap-5 py-6">
           {/* Header / Title */}
-          <div className="text-center w-full">
+          <div className="text-center w-full mb-2">
             <h1
               className="text-4xl sm:text-5xl md:text-6xl font-bold text-yellow-400 drop-shadow-[4px_4px_0_rgba(0,0,0,1)] uppercase tracking-tighter whitespace-nowrap"
             >
@@ -58,8 +58,8 @@ export default function Home() {
           {/* Mega Pot HUD */}
           <MegaPotDisplay />
 
-          {/* Game Area & Leaderboard - Visible to everyone */}
-          <div className="w-full flex flex-col items-center gap-6">
+          {/* GamePot & Action */}
+          <div className="w-full flex flex-col items-center gap-5">
             <GamePot />
 
             <div className="flex flex-col items-center gap-4">
@@ -67,9 +67,10 @@ export default function Home() {
               <ConnectButton showBalance={false} accountStatus="full" chainStatus="icon" />
             </div>
 
-            {/* Daily Share Button - Added Here */}
+            {/* Daily Share Button */}
             <DailyShareButton />
 
+            {/* Leaderboard & History */}
             <Leaderboard />
             <WinnersHistory />
           </div>
