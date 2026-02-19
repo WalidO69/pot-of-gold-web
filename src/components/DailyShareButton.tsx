@@ -37,14 +37,15 @@ export default function DailyShareButton() {
             if (diff <= 0) {
                 setTimeLeft(null); // Ready
             } else {
-                const h = Math.floor(diff / 3600);
-                const m = Math.floor((diff % 3600) / 60);
-                setTimeLeft(`${h}h ${m}m`);
+                const h = Math.floor(diff / 3600).toString().padStart(2, '0');
+                const m = Math.floor((diff % 3600) / 60).toString().padStart(2, '0');
+                const s = (diff % 60).toString().padStart(2, '0');
+                setTimeLeft(`${h}:${m}:${s}`);
             }
         };
 
         updateTimer();
-        const interval = setInterval(updateTimer, 60000);
+        const interval = setInterval(updateTimer, 1000);
         return () => clearInterval(interval);
     }, [lastDailyClaim]);
 
@@ -90,41 +91,52 @@ export default function DailyShareButton() {
                 <div className="absolute inset-0 bg-gradient-to-r from-red-500 via-yellow-500 to-blue-500 animate-spin-slow opacity-80" />
 
                 {/* Content */}
-                <button
-                    onClick={handleShareAndClaim}
-                    disabled={!!timeLeft || isPending || isConfirming}
-                    className="
-                        relative w-full bg-black/90 rounded-lg p-2
-                        flex items-center justify-between gap-4 border-2 border-white
-                        shadow-[0_0_15px_rgba(255,255,255,0.3)]
-                    "
-                >
-                    <div className="flex items-center gap-3">
-                        <img
-                            src="/daily-share.png"
-                            alt="Daily Reward"
-                            className="w-12 h-12 object-contain rounded-md"
-                        />
-                        <div className="flex flex-col items-start">
-                            <span className="text-white font-black text-lg uppercase tracking-wider italic drop-shadow-[2px_2px_0_#000]">
-                                DAILY SHARE
-                            </span>
-                            <span className="text-[10px] text-yellow-300 font-mono">
-                                +1 FREE MEGAPOT TICKET 🎟️
-                            </span>
-                        </div>
-                    </div>
+                {timeLeft ? (
+                    <div className="relative w-full bg-zinc-900/90 rounded-lg p-4 border-2 border-zinc-700 flex flex-col items-center justify-center gap-2 overflow-hidden">
+                        {/* Progress Bar Background */}
+                        <div className="absolute bottom-0 left-0 h-1 bg-yellow-500/20 w-full" />
 
-                    <div className="bg-white/10 px-3 py-1 rounded text-xs font-bold text-white min-w-[80px] text-center">
-                        {isPending || isConfirming ? (
-                            <span className="animate-pulse">Claiming...</span>
-                        ) : timeLeft ? (
-                            <span className="text-zinc-400">{timeLeft}</span>
-                        ) : (
-                            <span className="text-green-400">CLAIM 🚀</span>
-                        )}
+                        <span className="text-zinc-500 text-[10px] uppercase font-bold tracking-[0.2em]">Next Free Ticket In</span>
+                        <div className="text-2xl font-black text-white font-mono tracking-widest drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">
+                            {timeLeft}
+                        </div>
+                        <p className="text-[9px] text-zinc-600 uppercase font-bold">Come back tomorrow! 🍀</p>
                     </div>
-                </button>
+                ) : (
+                    <button
+                        onClick={handleShareAndClaim}
+                        disabled={isPending || isConfirming}
+                        className="
+                            relative w-full bg-black/90 rounded-lg p-2
+                            flex items-center justify-between gap-4 border-2 border-white
+                            shadow-[0_0_15px_rgba(255,255,255,0.3)]
+                        "
+                    >
+                        <div className="flex items-center gap-3">
+                            <img
+                                src="/daily-share.png"
+                                alt="Daily Reward"
+                                className="w-12 h-12 object-contain rounded-md"
+                            />
+                            <div className="flex flex-col items-start">
+                                <span className="text-white font-black text-lg uppercase tracking-wider italic drop-shadow-[2px_2px_0_#000]">
+                                    DAILY SHARE
+                                </span>
+                                <span className="text-[10px] text-yellow-300 font-mono">
+                                    +1 FREE MEGAPOT TICKET 🎟️
+                                </span>
+                            </div>
+                        </div>
+
+                        <div className="bg-white/10 px-3 py-1 rounded text-xs font-bold text-white min-w-[80px] text-center">
+                            {isPending || isConfirming ? (
+                                <span className="animate-pulse">Claiming...</span>
+                            ) : (
+                                <span className="text-green-400">CLAIM 🚀</span>
+                            )}
+                        </div>
+                    </button>
+                )}
             </div>
 
             {/* Notification Dot if ready */}
