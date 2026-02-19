@@ -38,7 +38,7 @@ export default function LastRoundsModal() {
             const logs = await publicClient.getLogs({
                 address: CONTRACT_ADDRESS,
                 event: parseAbiItem('event WinnerSelected(address indexed winner, uint256 amountWon)'),
-                fromBlock: BigInt(0), // Ideally optimize this to recent blocks
+                fromBlock: BigInt(37800000),
                 toBlock: 'latest'
             });
 

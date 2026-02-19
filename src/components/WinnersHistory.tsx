@@ -33,7 +33,7 @@ export default function WinnersHistory() {
                 const logs = await publicClient.getLogs({
                     address: CONTRACT_ADDRESS,
                     event: parseAbiItem('event WinnerSelected(address indexed winner, uint256 amountWon, uint256 devFee, uint256 megaPotContribution)'),
-                    fromBlock: 'earliest', // optimize this in prod
+                    fromBlock: BigInt(37800000),
                     toBlock: 'latest'
                 });
 

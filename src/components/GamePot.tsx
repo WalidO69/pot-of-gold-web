@@ -131,7 +131,7 @@ export default function GamePot() {
                 const logs = await publicClient.getLogs({
                     address: CONTRACT_ADDRESS,
                     event: parseAbiItem('event PlayerEntered(address indexed player, uint256 amount)'),
-                    fromBlock: BigInt(0),
+                    fromBlock: BigInt(37800000),
                     toBlock: 'latest'
                 });
 
