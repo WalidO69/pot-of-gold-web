@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-const CONTRACT_ADDRESS = (process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as `0x${string}`) || '0x5D171e505408B962a6E4dc6b9605234bAD0ff057';
+import { CONTRACT_ADDRESS, EXPLORER_URL } from '@/config';
 
 export default function ProvablyFairModal() {
     const [isOpen, setIsOpen] = useState(false);
@@ -20,8 +20,8 @@ export default function ProvablyFairModal() {
     }
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
-            <div className="bg-zinc-900 border border-white/10 rounded-xl p-6 max-w-md w-full shadow-2xl relative overflow-hidden">
+        <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm animate-in fade-in duration-200">
+            <div className="bg-zinc-900 border border-white/10 rounded-xl p-5 max-w-sm w-full shadow-2xl relative overflow-y-auto max-h-[85vh]">
                 {/* Close Button */}
                 <button
                     onClick={() => setIsOpen(false)}
@@ -32,47 +32,47 @@ export default function ProvablyFairModal() {
                     </svg>
                 </button>
 
-                <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                <h2 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
                     <span>🎲</span> Provably Fair
                 </h2>
 
-                <div className="space-y-4 text-sm text-zinc-300 leading-relaxed">
+                <div className="space-y-3 text-[11px] text-zinc-300 leading-relaxed">
                     <p>
-                        Pot of Gold uses <strong className="text-white">Chainlink VRF (Verifiable Random Function)</strong> to determine winners. This ensures that the process is:
+                        Pot of Gold uses <strong className="text-white font-bold">Chainlink VRF</strong> to determine winners.
                     </p>
 
-                    <ul className="list-disc pl-5 space-y-2 marker:text-yellow-500">
+                    <ul className="list-disc pl-4 space-y-1.5 marker:text-yellow-500">
                         <li>
-                            <strong className="text-white">Random:</strong> The winner is selected using a cryptographically secure random number.
+                            <strong className="text-white">Random:</strong> Selected using cryptographically secure random numbers.
                         </li>
                         <li>
-                            <strong className="text-white">Verifiable:</strong> The random number generation is verified on-chain. No one (including the developers) can tamper with the result.
+                            <strong className="text-white">Verifiable:</strong> Generation is verified on-chain. Tamper-proof.
                         </li>
                         <li>
-                            <strong className="text-white">Transparent:</strong> Every game round and its result is recorded on the Base blockchain.
+                            <strong className="text-white">Transparent:</strong> Every result is recorded on the Base blockchain.
                         </li>
                     </ul>
 
-                    <div className="bg-black/30 p-3 rounded-lg border border-white/5 mt-4">
-                        <p className="text-xs text-zinc-500 mb-1 uppercase tracking-wider">Smart Contract</p>
+                    <div className="bg-black/30 p-2.5 rounded-lg border border-white/5 mt-3">
+                        <p className="text-[9px] text-zinc-500 mb-1 uppercase tracking-wider">Contract</p>
                         <a
-                            href={`https://sepolia.basescan.org/address/${CONTRACT_ADDRESS}`}
+                            href={`${EXPLORER_URL}/address/${CONTRACT_ADDRESS}`}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="font-mono text-blue-400 hover:text-blue-300 break-all flex items-center gap-1 group"
+                            className="font-mono text-blue-400 hover:text-blue-300 break-all flex items-center gap-1 group text-[10px]"
                         >
-                            {CONTRACT_ADDRESS}
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-3 h-3 group-hover:translate-x-0.5 transition-transform">
+                            {CONTRACT_ADDRESS.slice(0, 18)}...{CONTRACT_ADDRESS.slice(-10)}
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-2.5 h-2.5">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
                             </svg>
                         </a>
                     </div>
                 </div>
 
-                <div className="mt-6 pt-4 border-t border-white/5 flex justify-end">
+                <div className="mt-4 pt-3 border-t border-white/5 flex justify-end">
                     <button
                         onClick={() => setIsOpen(false)}
-                        className="px-4 py-2 bg-white text-black font-bold rounded-lg hover:bg-zinc-200 transition-colors text-sm"
+                        className="px-3 py-1.5 bg-white text-black font-bold rounded-lg hover:bg-zinc-200 transition-colors text-xs"
                     >
                         Got it
                     </button>
