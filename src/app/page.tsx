@@ -48,7 +48,7 @@ export default function Home() {
                   className="text-yellow-400 text-xl md:text-2xl font-black uppercase tracking-tight"
                   style={{ textShadow: '2px 2px 0 #000' }}
                 >
-                  🏆 WIN 5$ INSTANTLY
+                  🏆 WIN 5$
                 </p>
               </div>
 
@@ -59,6 +59,9 @@ export default function Home() {
                 </div>
                 <div className="bg-black/60 backdrop-blur-sm border border-white/20 px-4 py-1.5 rounded-full shadow-lg">
                   <span className="text-[10px] font-bold text-white uppercase tracking-widest">👥 6 Players</span>
+                </div>
+                <div className="bg-black/60 backdrop-blur-sm border border-white/20 px-4 py-1.5 rounded-full shadow-lg">
+                  <span className="text-[10px] font-bold text-white uppercase tracking-widest">🥇 1 Takes it all</span>
                 </div>
               </div>
 

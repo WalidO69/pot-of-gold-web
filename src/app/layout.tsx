@@ -11,11 +11,11 @@ const pressStart2P = Press_Start_2P({
 });
 
 export const metadata: Metadata = {
-  title: "Pot of Gold - Win 5$ Instantly",
+  title: "Pot of Gold - Win 5$",
   description: "Join the Pot of Gold 🍀! A provably fair micro-lottery on Base. 6 players enter, 1 winner takes all. Are you feeling lucky today?",
   manifest: "/manifest.json",
   openGraph: {
-    title: "Pot of Gold - Win 5$ Instantly 🍀",
+    title: "Pot of Gold - Win 5$ 🍀",
     description: "6 players enter, 1 winner takes all. Provably fair on Base.",
     images: ["https://pot-of-gold-web.vercel.app/icon.png"],
   },
