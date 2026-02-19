@@ -9,6 +9,7 @@ import WinnersHistory from '@/components/WinnersHistory';
 import ProvablyFairModal from '@/components/ProvablyFairModal';
 import LastRoundsModal from '@/components/LastRoundsModal';
 import DailyShareButton from '@/components/DailyShareButton';
+import AddMiniAppButton from '@/components/AddMiniAppButton';
 
 export default function Home() {
 
@@ -93,7 +94,8 @@ export default function Home() {
           </div>
 
           {/* Footer */}
-          <div className="w-full grid grid-cols-2 gap-4 px-2 sm:px-0">
+          <div className="w-full grid grid-cols-1 sm:grid-cols-3 gap-4 px-2 sm:px-0">
+            <AddMiniAppButton />
             <ProvablyFairModal />
             <LastRoundsModal />
           </div>
