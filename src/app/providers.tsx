@@ -24,6 +24,7 @@ import {
 import { WagmiProvider, createConfig, http } from 'wagmi';
 import { farcasterMiniApp } from "@farcaster/miniapp-wagmi-connector";
 import { FarcasterProvider } from '@/components/FarcasterProvider';
+import { ACTIVE_CHAIN } from '@/config';
 
 const connectors = connectorsForWallets(
     [
@@ -44,7 +45,7 @@ const connectors = connectorsForWallets(
 );
 
 const config = createConfig({
-    chains: [baseSepolia, base, mainnet],
+    chains: [ACTIVE_CHAIN, base, baseSepolia, mainnet],
     transports: {
         [baseSepolia.id]: http(),
         [base.id]: http(),

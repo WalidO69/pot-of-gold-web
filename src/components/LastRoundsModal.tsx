@@ -1,16 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { createPublicClient, http, parseAbiItem } from 'viem';
-import { baseSepolia } from 'viem/chains';
-import { formatUnits } from 'viem';
-
-const CONTRACT_ADDRESS = (process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as `0x${string}`) || '0x5D171e505408B962a6E4dc6b9605234bAD0ff057';
-
-const publicClient = createPublicClient({
-    chain: baseSepolia,
-    transport: http(),
-});
+import { parseAbiItem, formatUnits } from 'viem';
+import { CONTRACT_ADDRESS, EXPLORER_URL, DEPLOYMENT_BLOCK } from '@/config';
+import { publicClient } from '@/utils/viem';
 
 type Round = {
     winner: string;
@@ -38,7 +31,7 @@ export default function LastRoundsModal() {
             const logs = await publicClient.getLogs({
                 address: CONTRACT_ADDRESS,
                 event: parseAbiItem('event WinnerSelected(address indexed winner, uint256 amountWon)'),
-                fromBlock: BigInt(37800000),
+                fromBlock: DEPLOYMENT_BLOCK,
                 toBlock: 'latest'
             });
 
@@ -114,7 +107,7 @@ export default function LastRoundsModal() {
                                         </td>
                                         <td className="py-3 text-center">
                                             <a
-                                                href={`https://sepolia.basescan.org/tx/${round.txHash}`}
+                                                href={`${EXPLORER_URL}/tx/${round.txHash}`}
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                                 className="inline-flex items-center justify-center w-8 h-8 rounded hover:bg-white/10 text-zinc-400 hover:text-white transition-colors"

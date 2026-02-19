@@ -9,19 +9,9 @@ import PixelLoader from './PixelLoader';
 import ShareModal from './ShareModal';
 
 
-// Placeholder addresses (Replace with real ones in .env)
-// Address from .env.local
-const CONTRACT_ADDRESS = (process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as `0x${string}`) || '0x6CE78fCDc5E9b1B5Cf970B029E0e95BA4a73ae79';
-// USDC on Base Sepolia
-const USDC_ADDRESS = '0x036CbD53842c5426634e7929541eC2318f3dCF7e';
-
-import { createPublicClient, http, parseAbiItem } from 'viem';
-import { baseSepolia } from 'viem/chains';
-
-const publicClient = createPublicClient({
-    chain: baseSepolia,
-    transport: http(),
-});
+import { parseAbiItem } from 'viem';
+import { CONTRACT_ADDRESS, USDC_ADDRESS, APP_URL, DEPLOYMENT_BLOCK } from '@/config';
+import { publicClient } from '@/utils/viem';
 
 export default function GamePot() {
     const { address } = useAccount();
@@ -30,7 +20,7 @@ export default function GamePot() {
 
     const shareUrl = `https://warpcast.com/~/compose?text=${encodeURIComponent(
         "I just entered the Pot of Gold! 🍀💰\n\n6 players put 1$ in, and 1 lucky winner takes home 5$ instantly! 🚀\n\nThe Pot is filling up fast... are you feeling lucky today? 🎲\n\n👇 Join the round before it's full!"
-    )}&embeds[]=https://pot-of-gold-web.vercel.app`;
+    )}&embeds[]=${APP_URL}`;
 
     // --- READS ---
     const { data: entryFee } = useReadContract({
@@ -122,7 +112,7 @@ export default function GamePot() {
                 const logs = await publicClient.getLogs({
                     address: CONTRACT_ADDRESS,
                     event: parseAbiItem('event PlayerEntered(address indexed player, uint256 amount)'),
-                    fromBlock: BigInt(37800000),
+                    fromBlock: DEPLOYMENT_BLOCK,
                     toBlock: 'latest'
                 });
 

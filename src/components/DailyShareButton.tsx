@@ -6,7 +6,7 @@ import { type Abi } from 'viem';
 import PotOfGoldABI from '@/abi/PotOfGold.json';
 import confetti from 'canvas-confetti';
 
-const CONTRACT_ADDRESS = (process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as `0x${string}`) || '0x0000000000000000000000000000000000000000';
+import { CONTRACT_ADDRESS, APP_URL } from '@/config';
 
 export default function DailyShareButton() {
     const { address } = useAccount();
@@ -65,7 +65,7 @@ export default function DailyShareButton() {
         // 1. Open Share Intent
         const shareText = "I just grabbed my free Daily Ticket for the Pot of Gold! 🎟️🍀\n\nDaily chance to win the MegaPot! 💰\n\n👇 Claim yours now!";
         // Using the newly generated daily-share-post.png
-        const shareUrl = `https://warpcast.com/~/compose?text=${encodeURIComponent(shareText)}&embeds[]=https://pot-of-gold-web.vercel.app/daily-share-post.png`;
+        const shareUrl = `https://warpcast.com/~/compose?text=${encodeURIComponent(shareText)}&embeds[]=${APP_URL}/daily-share-post.png`;
         window.open(shareUrl, '_blank');
 
         // 2. Trigger Transaction

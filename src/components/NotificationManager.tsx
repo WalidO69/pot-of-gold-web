@@ -7,7 +7,7 @@ import PotOfGoldABI from '@/abi/PotOfGold.json';
 import { type Abi } from 'viem';
 import { useGameSounds } from '../hooks/useGameSounds';
 import confetti from 'canvas-confetti';
-
+import { CONTRACT_ADDRESS, APP_URL } from '@/config';
 // Simple Toast Component
 function Toast({ message, type, onClose, onShare }: { message: string, type: 'success' | 'info', onClose: () => void, onShare?: () => void }) {
     useEffect(() => {
@@ -58,7 +58,7 @@ export default function NotificationManager() {
 
     // 1. Player Entered
     useWatchContractEvent({
-        address: (process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as `0x${string}`) || '0x0000000000000000000000000000000000000000',
+        address: CONTRACT_ADDRESS,
         abi: PotOfGoldABI.abi as Abi,
         eventName: 'PlayerEntered',
         onLogs(logs) {
@@ -74,7 +74,7 @@ export default function NotificationManager() {
 
     // 2. Winner Selected
     useWatchContractEvent({
-        address: (process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as `0x${string}`) || '0x0000000000000000000000000000000000000000',
+        address: CONTRACT_ADDRESS,
         abi: PotOfGoldABI.abi as Abi,
         eventName: 'WinnerSelected',
         onLogs(logs) {
@@ -105,7 +105,7 @@ export default function NotificationManager() {
 
                 const formattedAmount = formatUnits(amountWon, 6);
                 const shareText = `Someone just won ${formattedAmount}$ on Pot of Gold! 🏆✨\n\nThis is a provably fair micro-lottery on Base 🔵. 6 players enter, 1 winner takes it all!\n\nDon't miss the next round, the pot is already filling up! 🏃‍♂️💨\n\n👇 Click to play & win!`;
-                const shareUrl = `https://warpcast.com/~/compose?text=${encodeURIComponent(shareText)}&embeds[]=https://pot-of-gold-web.vercel.app`;
+                const shareUrl = `https://warpcast.com/~/compose?text=${encodeURIComponent(shareText)}&embeds[]=${APP_URL}`;
 
                 addToast(`WINNER! ${winner ? `${winner.slice(0, 6)}...` : 'Unknown'} won ${formattedAmount}$! 🏆`, 'success', shareUrl);
             });
@@ -114,7 +114,7 @@ export default function NotificationManager() {
 
     // 3. Refund Issued
     useWatchContractEvent({
-        address: (process.env.NEXT_PUBLIC_CONTRACT_ADDRESS as `0x${string}`) || '0x0000000000000000000000000000000000000000',
+        address: CONTRACT_ADDRESS,
         abi: PotOfGoldABI.abi as Abi,
         eventName: 'RefundIssued',
         onLogs() {
