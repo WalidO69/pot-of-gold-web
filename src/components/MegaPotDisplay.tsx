@@ -66,10 +66,10 @@ export default function MegaPotDisplay() {
     }, []);
 
     return (
-        <div className="w-full max-w-md mx-auto mb-6">
+        <div className="w-full max-w-md mx-auto">
             <div className="bg-zinc-900/90 border-2 border-yellow-400 rounded-lg py-2 px-4 shadow-[4px_4px_0_rgba(0,0,0,0.5)] flex items-center justify-between gap-4">
                 {/* Left: Trophy Icon */}
-                <span className="text-white text-xl filter drop-shadow-md">MEGAPOT</span>
+                <span className="text-white text-xs font-bold uppercase tracking-[0.2em] opacity-70">MEGAPOT</span>
 
                 {/* Center: Amount */}
                 <div className="flex flex-col items-center flex-1">
