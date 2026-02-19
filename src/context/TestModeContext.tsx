@@ -35,14 +35,14 @@ interface TestContextType {
 }
 
 const DEFAULT_STATE: TestState = {
-    address: '',
-    balance: BigInt(0),
+    address: '0xabc123...test',
+    balance: parseUnits('100', 6), // Start with 100 fake USDC
     allowance: BigInt(0),
     players: [],
-    megaPot: BigInt(0),
+    megaPot: parseUnits('25.50', 6),
     consecutiveLosses: BigInt(0),
-    entryFee: BigInt(0),
-    discountedFee: BigInt(0),
+    entryFee: parseUnits('1', 6),
+    discountedFee: parseUnits('0.5', 6),
 };
 
 const TestModeContext = createContext<TestContextType | undefined>(undefined);

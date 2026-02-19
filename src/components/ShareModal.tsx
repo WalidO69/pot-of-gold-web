@@ -58,7 +58,7 @@ export default function ShareModal({ isOpen, onClose, shareUrl }: ShareModalProp
                         Invite others to join and fill the pot faster!
                     </p>
 
-                    <div className="pt-4">
+                    <div className="pt-4 space-y-3">
                         <a
                             href={shareUrl}
                             target="_blank"
@@ -76,6 +76,13 @@ export default function ShareModal({ isOpen, onClose, shareUrl }: ShareModalProp
                             <span>Share</span>
                             <span className="group-hover:rotate-12 transition-transform">📢</span>
                         </a>
+
+                        <button
+                            onClick={onClose}
+                            className="w-full py-2 text-white/40 hover:text-white/80 transition-colors uppercase text-[10px] font-bold tracking-[0.2em]"
+                        >
+                            [ Close ]
+                        </button>
                     </div>
                 </div>
             </div>

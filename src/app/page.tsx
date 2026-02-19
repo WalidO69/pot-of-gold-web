@@ -58,6 +58,24 @@ export default function Home() {
           {/* Mega Pot HUD */}
           <MegaPotDisplay />
 
+          {/* Test Mode Controls */}
+          {isTestMode && (
+            <div className="flex gap-4 mb-4">
+              <button
+                onClick={actions.addFakePlayer}
+                className="bg-purple-600 hover:bg-purple-500 text-white text-[10px] px-3 py-2 rounded-lg font-bold uppercase border-b-4 border-purple-800 active:border-b-0 active:mt-1 transition-all"
+              >
+                🤖 Add Bot Player
+              </button>
+              <button
+                onClick={actions.resetGame}
+                className="bg-zinc-700 hover:bg-zinc-600 text-white text-[10px] px-3 py-2 rounded-lg font-bold uppercase border-b-4 border-zinc-900 active:border-b-0 active:mt-1 transition-all"
+              >
+                🔄 Reset Test
+              </button>
+            </div>
+          )}
+
           {/* GamePot & Action */}
           <div className="w-full flex flex-col items-center gap-5">
             <GamePot />
@@ -81,8 +99,14 @@ export default function Home() {
             <LastRoundsModal />
           </div>
 
-          <div className="text-center text-[10px] font-mono flex flex-col items-center gap-2">
-            <p className="text-white drop-shadow-[1px_1px_0_rgba(0,0,0,1)] uppercase tracking-wider" style={{ textShadow: '1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000' }}>
+          <div className="text-center text-[10px] font-mono flex flex-col items-center gap-3">
+            <button
+              onClick={toggleTestMode}
+              className={`px-3 py-1 rounded-full border border-white/20 transition-colors ${isTestMode ? 'bg-yellow-500/20 text-yellow-500 border-yellow-500/50' : 'text-zinc-500 hover:text-white'}`}
+            >
+              {isTestMode ? '🧪 TEST MODE ACTIVE' : '🧪 ENABLE TEST MODE'}
+            </button>
+            <p className="text-white opacity-40 uppercase tracking-widest" style={{ textShadow: '1px 1px 0 #000' }}>
               Powered by Base & Chainlink VRF
             </p>
           </div>
