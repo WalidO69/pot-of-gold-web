@@ -162,7 +162,7 @@ export default function GamePot() {
                 address: USDC_ADDRESS,
                 abi: ERC20ABI,
                 functionName: 'approve',
-                args: [CONTRACT_ADDRESS, parseUnits('100', 6)], // Approve plenty for UX
+                args: [CONTRACT_ADDRESS, parseUnits('1', 6)], // Exact amount for security
             });
         } else {
             writeContract({
