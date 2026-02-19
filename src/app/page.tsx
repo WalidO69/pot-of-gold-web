@@ -1,7 +1,5 @@
 'use client';
 
-import { ConnectButton } from '@rainbow-me/rainbowkit';
-import { useAccount } from 'wagmi';
 import GamePot from '@/components/GamePot';
 import Leaderboard from '@/components/Leaderboard';
 import NotificationManager from '@/components/NotificationManager';
@@ -13,7 +11,6 @@ import LastRoundsModal from '@/components/LastRoundsModal';
 import DailyShareButton from '@/components/DailyShareButton';
 
 export default function Home() {
-  const { isConnected } = useAccount();
 
   return (
     <main className="min-h-screen flex flex-col items-center justify-start relative overflow-y-auto">
@@ -85,10 +82,7 @@ export default function Home() {
           <div className="w-full flex flex-col items-center gap-5">
             <GamePot />
 
-            <div className="flex flex-col items-center gap-4">
-              {!isConnected && <p className="text-white text-xs blink">INSERT COIN TO JOIN LEADERBOARD</p>}
-              <ConnectButton showBalance={false} accountStatus="full" chainStatus="icon" />
-            </div>
+
 
             {/* Daily Share Button */}
             <DailyShareButton />
