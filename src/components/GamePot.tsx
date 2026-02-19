@@ -120,6 +120,8 @@ export default function GamePot() {
         useWaitForTransactionReceipt({ hash });
 
     const [lastEntryTime, setLastEntryTime] = useState<string | null>(null);
+    const [lastPlayerCount, setLastPlayerCount] = useState(0);
+    const [showEntryGif, setShowEntryGif] = useState(false);
 
     useEffect(() => {
         const fetchLastEntry = async () => {
@@ -151,12 +153,22 @@ export default function GamePot() {
             }
         };
 
+        // Animation logic
+        if (playerCount > lastPlayerCount && lastPlayerCount !== 0) {
+            setShowEntryGif(true);
+            const timer = setTimeout(() => setShowEntryGif(false), 3000);
+            setLastPlayerCount(playerCount);
+            // Cleanup timer on unmount or if effect re-runs
+            return () => clearTimeout(timer);
+        }
+        setLastPlayerCount(playerCount);
+
         if (!isTestMode) {
             fetchLastEntry();
             const interval = setInterval(fetchLastEntry, 60000); // Update every minute
             return () => clearInterval(interval);
         }
-    }, [playerCount, isTestMode, isConfirmed]);
+    }, [playerCount, isTestMode, isConfirmed, lastPlayerCount]);
 
     useEffect(() => {
         if (isConfirmed && !isTestMode) {
@@ -226,7 +238,7 @@ export default function GamePot() {
                 <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100%] h-[100%] bg-[radial-gradient(circle,rgba(255,223,0,0.6)_0%,transparent_60%)] animate-pulse delay-75 z-[-1]" />
 
                 <img
-                    src="/images/pot-idle.gif"
+                    src={showEntryGif ? "/images/pot-entry.gif" : "/images/pot-idle.gif"}
                     alt="Pot of Gold"
                     className={`w-80 h-80 pixelated object-contain drop-shadow-[0_0_15px_rgba(255,215,0,0.5)] ${playerCount === 0 ? 'animate-heartbeat' : ''}`}
                 />
