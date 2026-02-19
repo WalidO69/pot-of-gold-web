@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   other: {
     "fc:frame": JSON.stringify({
       version: "next",
-      imageUrl: `${APP_URL}/daily-share-post.png`,
+      imageUrl: `${APP_URL}/icon.png`,
       button: {
         title: "Play Pot of Gold",
         action: {
