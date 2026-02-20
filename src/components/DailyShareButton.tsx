@@ -65,8 +65,8 @@ export default function DailyShareButton() {
     const handleShareAndClaim = () => {
         // 1. Open Share Intent
         const shareText = "I just grabbed my free Daily Ticket for the Pot of Gold! 🎟️🍀\n\nDaily chance to win the MegaPot! 💰\n\n👇 Claim yours now!";
-        // Using the newly generated daily-share-post.png
-        const shareUrl = `https://warpcast.com/~/compose?text=${encodeURIComponent(shareText)}&embeds[]=${APP_URL}/daily-share-post.png`;
+        // Using the APP_URL so Warpcast crawls for metadata (Frame v1/v2)
+        const shareUrl = `https://warpcast.com/~/compose?text=${encodeURIComponent(shareText)}&embeds[]=${APP_URL}`;
         window.open(shareUrl, '_blank');
 
         // 2. Trigger Transaction

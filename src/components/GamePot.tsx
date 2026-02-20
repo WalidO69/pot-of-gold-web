@@ -29,11 +29,6 @@ export default function GamePot() {
         functionName: 'ENTRY_FEE',
     });
 
-    const { data: activePlayers, refetch: refetchPlayers, isLoading: isLoadingPlayers } = useReadContract({
-        address: CONTRACT_ADDRESS,
-        abi: PotOfGoldABI.abi as Abi,
-        functionName: 'getPlayersCount',
-    });
 
     const { data: discountedFee } = useReadContract({
         address: CONTRACT_ADDRESS,
@@ -55,7 +50,7 @@ export default function GamePot() {
     });
 
     // Fetch players array (0-5) to determine count
-    const { data: playersData } = useReadContracts({
+    const { data: playersData, refetch: refetchPlayersList, isLoading: isLoadingPlayers } = useReadContracts({
         contracts: Array.from({ length: 6 }).map((_, i) => ({
             address: CONTRACT_ADDRESS,
             abi: PotOfGoldABI.abi as Abi,
@@ -71,9 +66,10 @@ export default function GamePot() {
         args: address ? [address, CONTRACT_ADDRESS] : undefined,
     });
 
-    // Logic
-    // Convert BigInt to number for display
-    const playerCount = activePlayers ? Number(activePlayers) : 0;
+    // Player Entry Limit Logic (Max 2)
+    const activePlayersArray = playersData?.map(p => p.status === 'success' ? (p.result as string) : null).filter(p => p && p !== '0x0000000000000000000000000000000000000000') || [];
+
+    const playerCount = activePlayersArray.length;
 
     const hasDiscount = consecutiveLosses ? Number(consecutiveLosses) >= 5 : false;
 
@@ -85,9 +81,6 @@ export default function GamePot() {
     const currentTime = Math.floor(Date.now() / 1000);
     const refundTime = lastGameStart ? Number(lastGameStart) + (24 * 3600) : Infinity;
     const canRefund = playerCount > 0 && playerCount < 6 && currentTime > refundTime;
-
-    // Player Entry Limit Logic (Max 2)
-    const activePlayersArray = playersData?.map(p => p.status === 'success' ? (p.result as string) : null).filter(Boolean) || [];
 
     const userEntryCount = activePlayersArray.filter(p => p?.toLowerCase() === address?.toLowerCase()).length;
     const isLimitReached = userEntryCount >= 2;
@@ -152,12 +145,12 @@ export default function GamePot() {
     useEffect(() => {
         if (isConfirmed) {
             refetchAllowance();
-            refetchPlayers();
+            refetchPlayersList();
             if (lastTxType === 'enter') {
                 setShowShareModal(true);
             }
         }
-    }, [isConfirmed, refetchAllowance, refetchPlayers, lastTxType]);
+    }, [isConfirmed, refetchAllowance, refetchPlayersList, lastTxType]);
 
 
     const handleInteraction = () => {

@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   other: {
     "fc:frame": JSON.stringify({
       version: "next",
-      imageUrl: `${APP_URL}/icon.png`,
+      imageUrl: `${APP_URL}/daily-share-post.png`,
       button: {
         title: "Play Pot of Gold",
         action: {
@@ -35,7 +35,11 @@ export const metadata: Metadata = {
           splashBackgroundColor: "#18181b"
         }
       }
-    })
+    }),
+    "fc:frame:image": `${APP_URL}/daily-share-post.png`,
+    "fc:frame:button:1": "Play Pot of Gold",
+    "fc:frame:button:1:action": "post",
+    "fc:frame:button:1:target": `${APP_URL}/`
   }
 };
 
